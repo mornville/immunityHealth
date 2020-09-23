@@ -1,54 +1,71 @@
 import pandas as pd
-class Apple_health_data:
+import xmltodict
+
+class apple_health_data:
     def __init__(self):
-        self.stepCount =  []
-        self.heartRate = []
-        self.bmi = []
-        self.bodyFat = []
-        self.bodyMass = []
-        self.respiratory = []
-        self.height = []
-        self.VO2 = []
+        self.input_path = './export.xml'
+    
+    def extractData(self):
+        with open(self.input_path, 'r') as xml_file:
+            self.input_data = xmltodict.parse(xml_file.read())
+        records_list = self.input_data['HealthData']['Record']
+        df = pd.DataFrame(records_list)
 
-    def getStepCount(self):
-        data = pd.read_csv('apple_health_data/stepCount.csv')
-        data.fillna(0,inplace=True)
-        self.stepCount = data
-    
-    def getBMI(self):
-        data = pd.read_csv('apple_health_data/bmi.csv')
-        data.fillna(0,inplace=True)
-        self.bmi = data
-    
-    def getHeartRate(self):
-        data = pd.read_csv('apple_health_data/heartRate.csv')
-        data.fillna(0,inplace=True)
-        self.heartRate = data
-    
-    def getVO2(self):
-        data = pd.read_csv('apple_health_data/VO2.csv')
-        data.fillna(0,inplace=True)
-        self.VO2 = data
+        ## Filtering data for a 7 weeks
+        start_date, end_date = '2020-01-01 00:00:00 +0530', '2020-01-31 00:00:00 +0530'
+        mask = (df['@startDate'] > start_date) & (df['@startDate'] <= end_date)
+        df = df.loc[mask]
+        
+        ## Formatting date
+        format = '%Y-%m-%d %H:%M:%S %z'
+        df['@creationDate'] = pd.to_datetime(df['@creationDate'], format=format)
+        df['@startDate'] = pd.to_datetime(df['@startDate'], format=format)
+        df['@endDate'] = pd.to_datetime(df['@endDate'], format=format)
+                                        
+        # StepCount
+        step_counts = df[df['@type'] == 'HKQuantityTypeIdentifierStepCount']
+        step_counts.to_csv('step_counts.csv', index=False)
 
-    def getHeight(self):
-        data = pd.read_csv('apple_health_data/height.csv')
-        data.fillna(0,inplace=True)
-        self.height = data
+        # Excercise
+        distanceWalkingRunning = df[df['@type'] == 'HKQuantityTypeIdentifierDistanceWalkingRunning']
+        distanceWalkingRunning.to_csv('distanceWalkingRunning.csv', index=False)
 
-    def getRespiratory(self):
-        data = pd.read_csv('apple_health_data/respiratory.csv')
-        data.fillna(0,inplace=True)
-        self.respiratory = data
-    
-    def getBodyMass(self):
-        data = pd.read_csv('apple_health_data/bodyMass.csv')
-        data.fillna(0,inplace=True)
-        self.bodyMass = data
-    
-    def getBodyFat(self):
-        data = pd.read_csv('apple_health_data/bodyFat.csv')
-        data.fillna(0,inplace=True)
-        self.bodyFat = data
+        basalEnergyBurned = df[df['@type'] == 'HKQuantityTypeIdentifierBasalEnergyBurned']
+        basalEnergyBurned.to_csv('basalEnergyBurned.csv', index=False)
 
-a = Apple_health_data()
-a.getStepCount()
+        appleExerciseTime = df[df['@type'] == 'HKQuantityTypeIdentifierAppleExerciseTime']
+        appleExerciseTime.to_csv('appleExerciseTime.csv', index=False)
+
+        activeEnergyBurned = df[df['@type'] == 'HKQuantityTypeIdentifierActiveEnergyBurned']
+        activeEnergyBurned.to_csv('activeEnergyBurned.csv', index=False)
+
+        # heart Rate
+        heartRate = df[df['@type'] == 'HKQuantityTypeIdentifierHeartRate']
+        heartRate.to_csv('heartRate.csv', index=False)
+
+        restingHeartRate = df[df['@type'] == 'HKQuantityTypeIdentifierRestingHeartRate']
+        restingHeartRate.to_csv('restingHeartRate.csv', index=False)
+
+        walkingHeartRateAverage = df[df['@type'] == 'HKQuantityTypeIdentifierWalkingHeartRateAverage']
+        walkingHeartRateAverage.to_csv('walkingHeartRateAverage.csv', index=False)
+
+        #VO2
+        vo2Max = df[df['@type'] == 'HKQuantityTypeIdentifierVO2Max']
+        vo2Max.to_csv('vo2Max.csv', index=False)
+        
+    def getSteps(self):
+        data = pd.read_csv('step_counts.csv')
+        data = data[data["@sourceName"] == 'Shashank’s Apple\xa0Watch']
+        maxEntry = data[data['@value'] == data.max()["@value"]]
+        print("Maximum steps on: " , maxEntry["@creationDate"], maxEntry["@value"])
+
+        ## Calculate total number of steps per week
+        weakSteps = []
+        day = 1
+        initialDate = f"2020-01-{day} 00:00:00 +0530"
+        # temp = 0
+        # while initialDate < end_date:
+        #     temp+=
+a = apple_health_data()
+# a.extractData()
+a.getSteps()

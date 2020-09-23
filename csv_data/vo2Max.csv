@@ -1,0 +1,6 @@
+@type,@sourceName,@sourceVersion,@unit,@creationDate,@startDate,@endDate,@value,MetadataEntry,@device,HeartRateVariabilityMetadataList
+HKQuantityTypeIdentifierVO2Max,Shashank’s Apple Watch,,mL/min·kg,2020-01-10 10:02:56+05:30,2020-01-10 10:02:55+05:30,2020-01-10 10:02:55+05:30,30.7527,"OrderedDict([('@key', 'HKVO2MaxTestType'), ('@value', '2')])",,
+HKQuantityTypeIdentifierVO2Max,Shashank’s Apple Watch,,mL/min·kg,2020-01-12 18:01:21+05:30,2020-01-12 18:01:19+05:30,2020-01-12 18:01:19+05:30,29.8837,"OrderedDict([('@key', 'HKVO2MaxTestType'), ('@value', '2')])",,
+HKQuantityTypeIdentifierVO2Max,Shashank’s Apple Watch,,mL/min·kg,2020-01-13 10:26:37+05:30,2020-01-13 10:26:37+05:30,2020-01-13 10:26:37+05:30,29.9111,"OrderedDict([('@key', 'HKVO2MaxTestType'), ('@value', '2')])",,
+HKQuantityTypeIdentifierVO2Max,Shashank’s Apple Watch,,mL/min·kg,2020-01-13 18:52:31+05:30,2020-01-13 18:52:30+05:30,2020-01-13 18:52:30+05:30,30.7291,"OrderedDict([('@key', 'HKVO2MaxTestType'), ('@value', '2')])",,
+HKQuantityTypeIdentifierVO2Max,Shashank’s Apple Watch,,mL/min·kg,2020-01-23 19:42:37+05:30,2020-01-23 19:42:33+05:30,2020-01-23 19:42:33+05:30,30.6772,"OrderedDict([('@key', 'HKVO2MaxTestType'), ('@value', '2')])",,
