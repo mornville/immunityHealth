@@ -74,7 +74,7 @@ a = insights()
 ## Parameters whose total count would help for insights
 get_total_count_params = ['step_counts', 'distanceWalkingRunning', 'activeEnergyBurned', 'basalEnergyBurned', 'appleExerciseTime' ]
 ## Parameters whose average would help for insights
-get_average_params = ['heartRate', 'restingHeartRate', 'walkingHeartRateAverage' ]
+get_average_params = ['heartRate', 'restingHeartRate', 'walkingHeartRateAverage' , 'bm', 'bmi', 'respiratoryRate' ]
 
 for param in get_total_count_params:
     a.getTotal(param)

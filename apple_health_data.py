@@ -10,7 +10,7 @@ class apple_health_data:
             self.input_data = xmltodict.parse(xml_file.read())
         records_list = self.input_data['HealthData']['Record']
         df = pd.DataFrame(records_list)
-
+        print(df['@type'].unique())
         ## Filtering data for a 6 weeks
         start_date, end_date = '2020-01-01 00:00:00 +0530', '2020-02-13 00:00:00 +0530'
         mask = (df['@startDate'] > start_date) & (df['@startDate'] <= end_date)
@@ -21,7 +21,8 @@ class apple_health_data:
         df['@creationDate'] = pd.to_datetime(df['@creationDate'], format=format)
         df['@startDate'] = pd.to_datetime(df['@startDate'], format=format)
         df['@endDate'] = pd.to_datetime(df['@endDate'], format=format)
-                                        
+
+        #### Activity ####    
         # StepCount
         step_counts = df[df['@type'] == 'HKQuantityTypeIdentifierStepCount']
         step_counts.to_csv('step_counts.csv', index=False)
@@ -39,6 +40,8 @@ class apple_health_data:
         activeEnergyBurned = df[df['@type'] == 'HKQuantityTypeIdentifierActiveEnergyBurned']
         activeEnergyBurned.to_csv('activeEnergyBurned.csv', index=False)
 
+        
+        #### Vitals  ####
         # heart Rate
         heartRate = df[df['@type'] == 'HKQuantityTypeIdentifierHeartRate']
         heartRate.to_csv('heartRate.csv', index=False)
@@ -49,10 +52,18 @@ class apple_health_data:
         walkingHeartRateAverage = df[df['@type'] == 'HKQuantityTypeIdentifierWalkingHeartRateAverage']
         walkingHeartRateAverage.to_csv('walkingHeartRateAverage.csv', index=False)
 
-        #VO2
-        vo2Max = df[df['@type'] == 'HKQuantityTypeIdentifierVO2Max']
-        vo2Max.to_csv('vo2Max.csv', index=False)
-        
+        # Respiratory Rate
+        respiratoryRate = df[df['@type'] == 'HKQuantityTypeIdentifierRespiratoryRate']
+        respiratoryRate.to_csv('respiratoryRate.csv', index=False)
+
+        #BMI and body Mass
+        bm = df[df['@type'] == 'HKQuantityTypeIdentifierBodyMass']
+        bm.to_csv('bm.csv', index=False)  
+
+        bmi = df[df['@type'] == 'HKQuantityTypeIdentifierBodyMassIndex']
+        bmi.to_csv('bmi.csv', index=False)  
+
+
     # def getSteps(self):
     #     data = pd.read_csv('step_counts.csv')
     #     data = data[data["@sourceName"] == 'Shashank’s Apple\xa0Watch']
