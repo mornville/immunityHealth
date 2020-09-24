@@ -1,12 +1,13 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+import csv
 import pandas as pd
+
 class insights:
     def __init__(self):
         print('Getting Insights')
-        self.start_date = datetime.strptime('2020-01-01 00:00:00+0530','%Y-%m-%d %H:%M:%S%z')
-        self.end_date = datetime.strptime('2020-02-13 00:00:00+0530','%Y-%m-%d %H:%M:%S%z')
+        self.start_date = datetime.strptime('2019-03-01 00:00:00+0530','%Y-%m-%d %H:%M:%S%z')
+        self.end_date = datetime.strptime('2019-04-13 00:00:00+0530','%Y-%m-%d %H:%M:%S%z')
         self.steps_per_week = []
         self.data = {}
 
@@ -18,7 +19,7 @@ class insights:
             ## Changing format of date from str to datetime
             csv_file['@startDate'] = pd.to_datetime(csv_file['@startDate'],format=format)
             csv_file['@endDate'] = pd.to_datetime(csv_file['@endDate'],format=format)
-            week_date = datetime.strptime(f'2020-01-07 00:00:00+0530',format)
+            week_date = datetime.strptime(f'2019-03-07 00:00:00+0530',format)
             
             ## To calculate steps per Week
             idx = 0
@@ -46,7 +47,7 @@ class insights:
             ## Changing format of date from str to datetime
             csv_file['@startDate'] = pd.to_datetime(csv_file['@startDate'],format=format)
             csv_file['@endDate'] = pd.to_datetime(csv_file['@endDate'],format=format)
-            week_date = datetime.strptime(f'2020-01-07 00:00:00+0530',format)
+            week_date = datetime.strptime(f'2019-03-07 00:00:00+0530',format)
             
             ## To calculate steps per Week
             idx = 0
@@ -57,7 +58,8 @@ class insights:
                 if csv_file["@startDate"][idx] <= week_date:
                     in_a_week_count+=csv_file["@value"][idx]                
                 else:
-                    total_week_data.append(round(in_a_week_count/count, 2)) 
+                    avg = round(in_a_week_count/count, 2) if count != 0 else in_a_week_count
+                    total_week_data.append(avg) 
                     in_a_week_count, count = 0, 0
                     week_date+=relativedelta(weeks=1)
                 idx+=1
@@ -66,7 +68,7 @@ class insights:
             self.data[f"{param}"] = total_week_data  
 
         except Exception as e:
-            print(e)
+            print(e, param)
             return
 
 
@@ -83,3 +85,21 @@ for param in get_average_params:
     a.getAverage(param)
 
 print(a.data)
+
+
+ideal_data = {}
+ideal_data["step_counts"] = 8000
+ideal_data["distanceWalkingRunning"] = 50
+ideal_data["activeEnergyBurned"] = 2500
+ideal_data["basalEnergyBurned"] =  13000
+ideal_data["appleExerciseTime"] = 150
+ideal_data["heartRate"] = 72
+ideal_data["restingHeartRate"] = 60
+ideal_data["walkingHeartRateAverage"] = 90
+
+print(ideal_data)
+ideal_data["bm"] = 0
+ideal_data["bmi"] = 18.5
+ideal_data["respiratoryRate"] = 0
+
+
