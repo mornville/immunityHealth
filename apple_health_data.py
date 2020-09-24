@@ -11,8 +11,8 @@ class apple_health_data:
         records_list = self.input_data['HealthData']['Record']
         df = pd.DataFrame(records_list)
 
-        ## Filtering data for a 7 weeks
-        start_date, end_date = '2020-01-01 00:00:00 +0530', '2020-01-31 00:00:00 +0530'
+        ## Filtering data for a 6 weeks
+        start_date, end_date = '2020-01-01 00:00:00 +0530', '2020-02-13 00:00:00 +0530'
         mask = (df['@startDate'] > start_date) & (df['@startDate'] <= end_date)
         df = df.loc[mask]
         
@@ -53,13 +53,13 @@ class apple_health_data:
         vo2Max = df[df['@type'] == 'HKQuantityTypeIdentifierVO2Max']
         vo2Max.to_csv('vo2Max.csv', index=False)
         
-    def getSteps(self):
-        data = pd.read_csv('step_counts.csv')
-        data = data[data["@sourceName"] == 'Shashank’s Apple\xa0Watch']
-        maxEntry = data[data['@value'] == data.max()["@value"]]
-        print("Maximum steps on: " , maxEntry["@creationDate"], maxEntry["@value"])
+    # def getSteps(self):
+    #     data = pd.read_csv('step_counts.csv')
+    #     data = data[data["@sourceName"] == 'Shashank’s Apple\xa0Watch']
+    #     maxEntry = data[data['@value'] == data.max()["@value"]]
+    #     print("Maximum steps on: " , maxEntry["@creationDate"], maxEntry["@value"])
 
         
 a = apple_health_data()
-# a.extractData()
-a.getSteps()
+a.extractData()
+# a.getSteps()
