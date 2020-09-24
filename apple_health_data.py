@@ -59,13 +59,7 @@ class apple_health_data:
         maxEntry = data[data['@value'] == data.max()["@value"]]
         print("Maximum steps on: " , maxEntry["@creationDate"], maxEntry["@value"])
 
-        ## Calculate total number of steps per week
-        weakSteps = []
-        day = 1
-        initialDate = f"2020-01-{day} 00:00:00 +0530"
-        # temp = 0
-        # while initialDate < end_date:
-        #     temp+=
+        
 a = apple_health_data()
 # a.extractData()
 a.getSteps()
