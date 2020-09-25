@@ -87,19 +87,3 @@ for param in get_average_params:
 print(a.data)
 
 
-ideal_data = {}
-ideal_data["step_counts"] = 8000
-ideal_data["distanceWalkingRunning"] = 50
-ideal_data["activeEnergyBurned"] = 2500
-ideal_data["basalEnergyBurned"] =  13000
-ideal_data["appleExerciseTime"] = 150
-ideal_data["heartRate"] = 72
-ideal_data["restingHeartRate"] = 60
-ideal_data["walkingHeartRateAverage"] = 90
-
-print(ideal_data)
-ideal_data["bm"] = 0
-ideal_data["bmi"] = 18.5
-ideal_data["respiratoryRate"] = 0
-
-
